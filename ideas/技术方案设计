@@ -1,0 +1,158 @@
+# 技术方案设计
+
+## 1. 系统架构
+本系统采用前后端分离的架构，后端使用 SpringMVC + SpringBoot + MyBatis + SQLite，前端使用 Vue + Element UI。
+
+### 1.1 后端架构
+- **SpringBoot**：用于快速搭建和开发 Spring 应用程序
+- **SpringMVC**：处理 HTTP 请求和响应
+- **MyBatis**：用于数据持久化，简化数据库操作
+- **SQLite**：轻量级关系型数据库，用于数据存储
+
+### 1.2 前端架构
+- **Vue**：用于构建用户界面的 JavaScript 框架
+- **Element UI**：基于 Vue 的组件库，用于快速构建界面
+
+## 2. 数据库设计
+
+### 2.1 原始产品供应源表 (raw_supplier)
+```sql
+CREATE TABLE raw_supplier (
+    id INTEGER AUTOINCREMENT PRIMARY KEY,
+    url TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    KEY `IDX_URL` (`url`)
+
+);
+```
+
+###2.2 结构化产品供应源表 (structured_supplier)
+```sql
+CREATE TABLE structured_supplier (
+    id INTEGER AUTOINCREMENT PRIMARY KEY,
+    name TEXT NOT NULL,
+    head_image TEXT,
+    url TEXT NOT NULL,
+    raw_source_id TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+###2.3 批发价表 (wholesale_prices)
+```sql
+CREATE TABLE wholesale_prices (
+    id INTEGER AUTOINCREMENT PRIMARY KEY AUTOINCREMENT,
+    structured_product_id VARCHAR(255) NOT NULL,
+    min_quantity INTEGER NOT NULL,
+    price REAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+## 3. 后端设计
+### 3.1 项目结构
+plaintext
+supplier-saler-backend
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com.yeluo.supplier_saler_backend
+│   │   │       ├── controller
+│   │   │       ├── service
+│   │   │       ├── mapper
+│   │   │       ├── model
+│   │   │       └── config
+│   │   └── resources
+│   │       ├── application.properties
+│   │       └── mapper
+└── pom.xml
+
+### 3.2 核心组件设计
+#### 3.2.1 Controller
+RawSupplierController：处理原始产品供应源的 CRUD 操作
+StructuredSupplierController：处理结构化产品供应源的 CRUD 操作
+WholesalePriceController：处理批发价的 CRUD 操作
+#### 3.2.2 Service
+RawSupplierService：实现原始产品供应源的业务逻辑
+StructuredSupplierService：实现结构化产品供应源的业务逻辑
+WholesalePriceService：实现批发价的业务逻辑
+#### 3.2.3 Mapper
+RawSupplierMapper：处理原始产品供应源的数据库操作
+StructuredSupplierMapper：处理结构化产品供应源的数据库操作
+WholesalePriceMapper：处理批发价的数据库操作
+
+### 3.3 API 设计
+#### 3.3.1 原始产品供应源管理
+POST /api/supplier/raw：新增原始产品供应源
+GET /api/supplier/raw：查询原始产品供应源（支持分页）
+PUT /api/supplier/raw/{id}：更新原始产品供应源
+DELETE /api/supplier/raw/{id}：删除原始产品供应源
+POST /api/supplier/process：加工原始产品供应源
+#### 3.3.2 结构化产品供应源管理
+POST /api/supplier/structured：新增结构化产品供应源
+GET /api/supplier/structured：查询结构化产品供应源（支持分页）
+PUT /api/supplier/structured/{id}：更新结构化产品供应源
+DELETE /api/supplier/structured/{id}：删除结构化产品供应源
+#### 3.3.3 批发价管理
+GET /api/supplier/structured/{id}/prices：查询批发价
+
+
+## 4. 前端设计
+### 4.1 项目结构
+plaintext
+supplier-saler-frontend
+├── public
+├── src
+│   ├── api
+│   ├── assets
+│   ├── components
+│   ├── router
+│   ├── store
+│   ├── views
+│   ├── App.vue
+│   └── main.js
+├── package.json
+└── vue.config.js
+### 4.2 页面设计
+原始产品供应源管理页面
+结构化产品供应源管理页面
+批发价管理页面
+### 4.3 组件设计
+RawSupplierList：原始产品供应源列表
+RawSupplierForm：原始产品供应源表单
+StructuredSupplierList：结构化产品供应源列表
+StructuredSupplierForm：结构化产品供应源表单
+WholesalePriceList：批发价列表
+WholesalePriceForm：批发价表单
+## 5. 安全性设计
+使用 Spring Security 进行身份认证和授权
+实现 JWT (JSON Web Token) 进行用户会话管理
+对敏感数据进行加密存储
+
+## 6. 性能优化
+使用 Redis 缓存热点数据
+实现数据库索引优化
+使用连接池管理数据库连接
+
+## 7. 部署方案
+使用 Docker 容器化应用
+采用 Nginx 作为反向代理服务器
+使用 Jenkins 实现持续集成和部署
+
+## 8. 测试策略
+单元测试：使用 JUnit 进行单元测试
+集成测试：使用 Spring Boot Test 进行集成测试
+前端测试：使用 Jest 进行 Vue 组件测试
+接口测试：使用 Postman 进行 API 测试
+
+## 9. 监控和日志
+使用 Spring Boot Actuator 进行应用监控
+采用 ELK (Elasticsearch, Logstash, Kibana) 栈进行日志收集和分析
+
+## 10. 文档
+使用 Swagger 生成 API 文档
+编写详细的开发文档和部署文档

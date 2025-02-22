@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeluo.supplier_saler_backend.mapper.RawSupplierMapper">
+    <resultMap id="BaseResultMap" type="com.yeluo.supplier_saler_backend.model.RawSupplier">
+        <id column="id" property="id" />
+        <result column="url" property="url" />
+        <result column="content" property="content" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, url, content, created_at, updated_at
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM raw_supplier
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM raw_supplier
+    </select>
+
+    <select id="findByPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM raw_supplier
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO raw_supplier (url, content)
+        VALUES (#{url}, #{content})
+    </insert>
+
+    <update id="update">
+        UPDATE raw_supplier
+        SET url = #{url},
+            content = #{content},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM raw_supplier WHERE id = #{id}
+    </delete>
+</mapper>

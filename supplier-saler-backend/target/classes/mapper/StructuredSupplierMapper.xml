@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeluo.supplier_saler_backend.mapper.StructuredSupplierMapper">
+    <resultMap id="BaseResultMap" type="com.yeluo.supplier_saler_backend.model.StructuredSupplier">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="head_image" property="headImage" />
+        <result column="url" property="url" />
+        <result column="raw_source_id" property="rawSourceId" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, head_image, url, raw_source_id, created_at, updated_at
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM structured_supplier
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM structured_supplier
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO structured_supplier (name, head_image, url, raw_source_id)
+        VALUES (#{name}, #{headImage}, #{url}, #{rawSourceId})
+    </insert>
+
+    <update id="update">
+        UPDATE structured_supplier
+        SET name = #{name},
+            head_image = #{headImage},
+            url = #{url},
+            raw_source_id = #{rawSourceId},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM structured_supplier WHERE id = #{id}
+    </delete>
+</mapper>

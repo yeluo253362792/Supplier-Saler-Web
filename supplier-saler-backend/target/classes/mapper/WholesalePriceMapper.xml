@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeluo.supplier_saler_backend.mapper.WholesalePriceMapper">
+    <resultMap id="BaseResultMap" type="com.yeluo.supplier_saler_backend.model.WholesalePrice">
+        <id column="id" property="id" />
+        <result column="structured_product_id" property="structuredProductId" />
+        <result column="min_quantity" property="minQuantity" />
+        <result column="price" property="price" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <select id="findByStructuredProductId" resultMap="BaseResultMap">
+        SELECT *
+        FROM wholesale_prices
+        WHERE structured_product_id = #{structuredProductId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO wholesale_prices (structured_product_id, min_quantity, price)
+        VALUES (#{structuredProductId}, #{minQuantity}, #{price})
+    </insert>
+
+    <update id="update">
+        UPDATE wholesale_prices
+        SET min_quantity = #{minQuantity},
+            price = #{price},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByStructuredProductId">
+        DELETE FROM wholesale_prices WHERE structured_product_id = #{structuredProductId}
+    </delete>
+</mapper>

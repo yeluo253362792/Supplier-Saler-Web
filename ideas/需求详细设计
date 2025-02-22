@@ -1,0 +1,166 @@
+# 详细需求设计
+
+## 1. 原始的产品供应源管理模块
+### 1.1 原始产品供应源的增删改查
+- **功能描述**：
+  - 支持对原始产品供应源的增删改查操作。
+  - 原始产品供应源包括以下字段：
+    - `url`：产品供应源的链接。
+    - `content`：产品供应源的详细内容，可能非常长。
+
+- **接口设计**：
+  - **新增原始产品供应源**：`POST /api/supplier/raw`
+    - 请求参数：
+      ```json
+      {
+        "url": "string",
+        "content": "string"
+      }
+      ```
+    - 响应：
+      ```json
+      {
+        "id": "string",
+        "url": "string",
+        "content": "string"
+      }
+      ```
+  - **查询原始产品供应源**：`GET /api/supplier/raw`
+    - 支持分页查询，返回结果包含 `url` 和 `content`。
+  - **更新原始产品供应源**：`PUT /api/supplier/raw/{id}`
+    - 请求参数：
+      ```json
+      {
+        "url": "string",
+        "content": "string"
+      }
+      ```
+  - **删除原始产品供应源**：`DELETE /api/supplier/raw/{id}`
+
+### 1.2 原始产品供应源的加工功能
+- **功能描述**：
+  - 支持对单个或批量的原始产品供应源进行加工。
+  - 加工后的结果为结构化的产品供应源。
+
+- **接口设计**：
+  - **加工原始产品供应源**：`POST /api/supplier/process`
+    - 请求参数：
+      ```json
+      {
+        "ids": ["string"] // 原始产品供应源的ID列表
+      }
+      ```
+    - 响应：
+      ```json
+      {
+        "processedCount": 10,
+        "failedCount": 2,
+        "failedIds": ["id1", "id2"]
+      }
+      ```
+
+---
+
+## 2. 结构化的产品供应源管理模块
+### 2.1 结构化产品供应源的增删改查
+- **功能描述**：
+  - 支持对结构化产品供应源的增删改查操作。
+  - 结构化产品供应源包括以下字段：
+    - `name`：产品名称。
+    - `headImage`：产品头图。
+    - `url`：产品链接。
+    - `rawSourceId`：关联的原始产品供应源ID。
+
+- **接口设计**：
+  - **新增结构化产品供应源**：`POST /api/supplier/structured`
+    - 请求参数：
+      ```json
+      {
+        "name": "string",
+        "headImage": "string",
+        "url": "string",
+        "rawSourceId": "string"
+      }
+      ```
+    - 响应：
+      ```json
+      {
+        "id": "string",
+        "name": "string",
+        "headImage": "string",
+        "url": "string",
+        "rawSourceId": "string"
+      }
+      ```
+  - **查询结构化产品供应源**：`GET /api/supplier/structured`
+    - 支持分页查询，返回结果包含所有字段。
+  - **更新结构化产品供应源**：`PUT /api/supplier/structured/{id}`
+    - 请求参数：
+      ```json
+      {
+        "name": "string",
+        "headImage": "string",
+        "url": "string",
+        "rawSourceId": "string"
+      }
+      ```
+  - **删除结构化产品供应源**：`DELETE /api/supplier/structured/{id}`
+
+---
+
+## 3. 结构化产品供应源的价格管理模块
+### 3.1 批发价的管理
+- **功能描述**：
+  - 每个结构化产品供应源可以设置多个批发价。
+  - 批发价包括以下字段：
+    - `minQuantity`：起批量。
+    - `price`：对应的批发价。
+  - 批发价的增删改操作与结构化产品供应源的增删改操作绑定。
+
+- **接口设计**：
+  - **新增或更新结构化产品供应源时设置批发价**：
+    - 请求参数：
+      ```json
+      {
+        "name": "string",
+        "headImage": "string",
+        "url": "string",
+        "rawSourceId": "string",
+        "wholesalePrices": [
+          {
+            "minQuantity": 10,
+            "price": 100.0
+          },
+          {
+            "minQuantity": 50,
+            "price": 90.0
+          }
+        ]
+      }
+      ```
+  - **查询批发价**：`GET /api/supplier/structured/{id}/prices`
+    - 响应：
+      ```json
+      {
+        "wholesalePrices": [
+          {
+            "minQuantity": 10,
+            "price": 100.0
+          },
+          {
+            "minQuantity": 50,
+            "price": 90.0
+          }
+        ]
+      }
+      ```
+
+---
+
+## 非功能性需求
+- **性能**：
+  - 支持大数据量的存储和查询，接口响应时间在 500ms 以内。
+- **安全**：
+  - 提供接口鉴权机制，确保数据安全。
+- **扩展性**：
+  - 模块化设计，便于后续功能扩展。
