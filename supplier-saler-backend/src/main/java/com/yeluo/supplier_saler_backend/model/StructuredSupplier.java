@@ -1,6 +1,7 @@
 package com.yeluo.supplier_saler_backend.model;
 
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 public class StructuredSupplier {
     private Integer id;
@@ -8,8 +9,8 @@ public class StructuredSupplier {
     private String headImage;
     private String url;
     private Integer rawSourceId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
 
     public Integer getId() {
         return id;
@@ -51,19 +52,19 @@ public class StructuredSupplier {
         this.rawSourceId = rawSourceId;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

@@ -1,14 +1,15 @@
 package com.yeluo.supplier_saler_backend.model;
 
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 public class WholesalePrice {
     private Integer id;
     private Integer structuredProductId;
     private Integer minQuantity;
     private Double price;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
 
     // Getters and Setters
     public Integer getId() {
@@ -43,19 +44,19 @@ public class WholesalePrice {
         this.price = price;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
