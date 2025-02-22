@@ -1,7 +1,7 @@
 # 技术方案设计
 
 ## 1. 系统架构
-本系统采用前后端分离的架构，后端使用 SpringMVC + SpringBoot + MyBatis + SQLite，前端使用 Vue + Element UI。
+本系统采用前后端分离的架构，后端使用 SpringMVC + SpringBoot + MyBatis + SQLite，前端使用 Vue + Element Plus。
 
 ### 1.1 后端架构
 - **SpringBoot**：用于快速搭建和开发 Spring 应用程序
@@ -11,7 +11,7 @@
 
 ### 1.2 前端架构
 - **Vue**：用于构建用户界面的 JavaScript 框架
-- **Element UI**：基于 Vue 的组件库，用于快速构建界面
+- **Element Plus**：基于 Vue 的组件库，用于快速构建界面
 
 ## 2. 数据库设计
 
