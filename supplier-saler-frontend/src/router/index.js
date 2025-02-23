@@ -1,34 +1,21 @@
-import { createRouter, createWebHistory } from 'vue-router';
-
-import RawSupplierList from '@/views/RawSupplierList.vue';
-import StructuredSupplierList from '@/views/StructuredSupplierList.vue';
-import WholesalePriceList from '@/views/WholesalePriceList.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
+import About from '../views/About.vue'
+import Contact from '../views/Contact.vue'
+import RawSupplier from '../views/RawSupplier.vue'
+import StructuredSupplier from '../views/StructuredSupplier.vue'
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/raw-suppliers'
-  },
-  {
-    path: '/raw-suppliers',
-    name: 'RawSupplierList',
-    component: RawSupplierList
-  },
-  {
-    path: '/structured-suppliers',
-    name: 'StructuredSupplierList',
-    component: StructuredSupplierList
-  },
-  {
-    path: '/wholesale-prices',
-    name: 'WholesalePriceList',
-    component: WholesalePriceList
-  }
-];
+  { path: '/', name: 'Home', component: Home },
+  { path: '/about', name: 'About', component: About },
+  { path: '/contact', name: 'Contact', component: Contact },
+  { path: '/raw-supplier', name: 'RawSupplier', component: RawSupplier },
+  { path: '/structured-supplier', name: 'StructuredSupplier', component: StructuredSupplier },
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-});
+  routes,
+})
 
-export default router;
+export default router

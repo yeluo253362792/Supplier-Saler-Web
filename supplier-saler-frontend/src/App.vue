@@ -1,14 +1,14 @@
 <template>
-  <RawSupplierList/>
+  <Main/>
 </template>
 
 <script>
-import RawSupplierList from './views/RawSupplierList.vue'
+import Main from './components/Main.vue'
 
 export default {
   name: 'App',
   components: {
-    RawSupplierList
+    Main
   }
 }
 </script>
