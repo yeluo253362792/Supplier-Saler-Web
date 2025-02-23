@@ -1,8 +1,11 @@
 package com.yeluo.supplier_saler_backend.service.impl;
 
 import com.yeluo.supplier_saler_backend.mapper.RawSupplierMapper;
+import com.yeluo.supplier_saler_backend.mapper.StructuredSupplierMapper;
 import com.yeluo.supplier_saler_backend.model.RawSupplier;
+import com.yeluo.supplier_saler_backend.model.StructuredSupplier;
 import com.yeluo.supplier_saler_backend.service.RawSupplierService;
+import com.yeluo.supplier_saler_backend.service.StructuredSupplierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,9 @@ public class RawSupplierServiceImpl implements RawSupplierService {
 
     @Autowired
     private RawSupplierMapper rawSupplierMapper;
+
+    @Autowired
+    private StructuredSupplierMapper structuredSupplierMapper;
 
     @Override
     public RawSupplier findById(Integer id) {
@@ -35,6 +41,12 @@ public class RawSupplierServiceImpl implements RawSupplierService {
     @Transactional
     public RawSupplier create(RawSupplier rawSupplier) {
         rawSupplierMapper.insert(rawSupplier);
+
+        StructuredSupplier structuredSupplier = StructuredSupplierResolver.resolveFromRawSupplier(rawSupplier);
+        if(structuredSupplier!=null) {
+            structuredSupplierMapper.insert(structuredSupplier);
+        }
+
         return rawSupplier;
     }
 

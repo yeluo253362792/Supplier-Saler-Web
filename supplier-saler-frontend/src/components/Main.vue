@@ -4,6 +4,7 @@
     <nav class="navbar">
       <div class="navbar-brand">供应商管理系统</div>
       <ul class="navbar-menu">
+        
         <li><router-link to="/">首页</router-link></li>
         <!-- 新增供应源管理菜单 -->
         <li class="dropdown">
@@ -89,6 +90,7 @@ export default {
   margin: 0;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2; /* 确保表格的 z-index 不会覆盖下拉菜单 */
 }
 
 .dropdown-menu li {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="raw-supplier-container">
     <el-table :data="rawSuppliers" style="width: 100%">
       <!-- ID 列，链接跳转 -->
       <el-table-column prop="id" label="ID" width="50">
@@ -72,3 +72,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.raw-supplier-container {
+  position: relative;
+  z-index: 1; /* 确保表格的 z-index 不会覆盖下拉菜单 */
+}
+
+.el-table {
+  overflow: visible; /* 确保表格内容不会限制下拉菜单的显示 */
+}
+</style>
